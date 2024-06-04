@@ -1,0 +1,51 @@
+services:
+
+  reverse-proxy:
+    container_name: reverse-proxy
+    image: nginx:1.27.0-alpine
+    depends_on:
+      - frontend
+      - backend
+    volumes:
+    - ./reverse_proxy/nginx.conf:/etc/nginx/nginx.conf
+    ports:
+      - "80:80"
+    restart: on-failure
+
+  backend:
+    container_name: weatherapp_backend
+    build: 
+      context: ./backend
+      dockerfile: Dockerfile
+    volumes:
+      - ./backend/:/app/
+      - /app/node_modules
+    ports:
+      - "2999:${BACKEND_INTERNAL_PORT}"
+    restart: on-failure
+    environment:
+      - PORT=${BACKEND_INTERNAL_PORT}
+      - APPID=${BACKEND_APPID}
+      - MAP_ENDPOINT=${BACKEND_MAP_ENDPOINT}
+      - TARGET_CITY=${BACKEND_TARGET_CITY}
+    
+  frontend:
+    container_name: weatherapp_frontend
+    build: 
+      context: ./frontend
+      dockerfile: Dockerfile
+    volumes:
+      - ./frontend/:/app/
+      - /app/node_modules
+    command: npm run start
+    ports:
+      - "${FRONT_PORT}"
+    depends_on:
+      - backend
+    environment:
+      - ENDPOINT=${BACKEND_ENDPOINT}
+      - HOST=${FRONT_HOST}
+      - PORT=${FRONT_PORT}
+    restart: on-failure
+
+

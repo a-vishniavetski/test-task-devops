@@ -1,13 +1,14 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 
-const baseURL = process.env.ENDPOINT;
+const baseURL = process.env.ENDPOINT || "";
 
 const getWeatherFromApi = async () => {
   try {
-    const response = await fetch(`${baseURL}/weather`);
+    const response = await fetch(`${baseURL}/api/weather`);
     return response.json();
   } catch (error) {
+    console.error("baseURL: ", baseURL);
     console.error(error);
   }
 
