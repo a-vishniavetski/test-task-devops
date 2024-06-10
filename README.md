@@ -2,7 +2,7 @@
 All of the tasks are completed. The application is available at: http://52.168.83.77:80 . It consists of **3 Docker Containers** running on a **Virtual Machine** on **Azure Cloud**, and can be automatically installed on a Remote or Locally using **Terraform** and **Ansible**.
 
 ### Terraform
-I have written configuration files to automatically provision a Virtual Machine on Azure with an automatic setup of **InBound** **SSH** and **HTTP** connections using Terraform through **Azure Cloud Shell**. The configuration files:
+I have written configuration files to automatically provision an Azure Virtual Machine with an automatic setup of **InBound** **SSH** and **HTTP** connections using Terraform through **Azure Cloud Shell**. The configuration files:
 ```
 terraform\providers.tf - Sets up Terraform providers like AzureRM.
 terraform\varibles.tf - Sets up variables like the location of the resource group.
@@ -79,6 +79,6 @@ ansible-playbook -i ./inventory.ini --extra-vars "target_hosts=<TARGET_HOST>" pl
 ```
 Where: **<TARGET_HOST>** is either **`local`** or **`azure`** respectively.
 
-## Possible Further Improvements
+# Possible Further Improvements
 - In theory, using Terraform in a local Powershell, and Bash scripting, the deployment process can be wrapped in a single Bash script with a single configuration file, which would be convenient for the client.
 - HTTPS through SSL certificates.
