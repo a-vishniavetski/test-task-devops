@@ -40,7 +40,7 @@ I have written:
 1. Clone this repository using `git clone https://github.com/a-vishniavetski/test-task-devops.git` and enter it.
 2. Login into **Azure Portal** using your browser and open **Azure Cloud Shell**.
 3. Upload the Terraform Configuration files from the folder `terraform` into the Cloud Shell.
-4. Execute the following commands to provision the Virtual Machine:
+4. In the Cloud Shell, execute the following commands to provision the Virtual Machine:
 
 ```
 terraform init -upgrade
@@ -50,7 +50,7 @@ terraform apply main.tfplan
 
 The shell will output the **Public IP** of the Virtual Machine and the **Private SSH Key**.
 
-5. Copy the private key into a new file **`<YOUR_KEY>.pem`** in the same folder with ansible playbooks. Execute `sudo chmod 0600 <YOUR_KEY>.pem` .
+5. From the Cloud Shell, copy the private key into a new file **`<YOUR_KEY>.pem`**, on your local machine, in the same folder with ansible playbooks. Execute `sudo chmod 0600 <YOUR_KEY>.pem` .
 6. Create a file `inventory.ini` and paste into it the following configuration, fill in the `<PLACEHOLDERS>` with your information:
 
 ```
