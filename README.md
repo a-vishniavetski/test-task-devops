@@ -72,11 +72,12 @@ backend_appid=<API_KEY_FROM_OPENWEATHERMAPS>
 
 7. To **install Docker**, **build the images** of the application, and **to deploy** it either to a **Remote** or **Locally**, execute the following commands:
 ```
-
-## Possible Further Improvements
-- In theory, using Terraform in a local Powershell, and Bash scripting, the deployment process can be wrapped in a single Bash script with a single configuration file, which would be convenient for the client.
 ansible-playbook -i ./inventory.ini --extra-vars "target_hosts=<TARGET_HOST>" playbook_install_docker.yml
 ansible-playbook -i ./inventory.ini --extra-vars "target_hosts=local" --become-user <YOUR_LOCAL_USER_WITH_SUDO_PRIVELEGES> playbook_build_images.yml
 ansible-playbook -i ./inventory.ini --extra-vars "target_hosts=<TARGET_HOST>" playbook_deploy.yml
 ```
 Where: **<TARGET_HOST>** is either **`local`** or **`azure`** respectively.
+
+## Possible Further Improvements
+- In theory, using Terraform in a local Powershell, and Bash scripting, the deployment process can be wrapped in a single Bash script with a single configuration file, which would be convenient for the client.
+- HTTPS through SSL certificates.
