@@ -55,11 +55,11 @@ The shell will output the **Public IP** of the Virtual Machine and the **Private
 
 ```
 [azure]
-<PUBLIC_IP> ansible_user=azureadmin ansible_ssh_private_key_file=./<YOUR_KEY>.pem
+<VM_PUBLIC_IP> ansible_user=azureadmin ansible_ssh_private_key_file=./<YOUR_KEY>.pem
 [local]
 localhost ansible_connection=local
 [azure:vars]
-STATIC_IP=<PUBLIC_IP>
+STATIC_IP=<VM_PUBLIC_IP>
 azure_host_username=azureadmin
 [local:vars]
 STATIC_IP=localhost
