@@ -16,6 +16,7 @@ I have written the following Ansible playbooks:
 - `playbook_build_images` - **Builds** Docker images and pushes them to the **Docker Hub** to a private repository.
 - `playbook_deploy.yml` - **Deploys** the entire application either to Remote or Locally.
 
+**Jinja templates** are used to deploy the configuration files (`.env` , `.conf`).
 ### Cloud Hosting - Microsoft Azure Cloud
 I have set up:
 - A Virtual Machine in the Azure Cloud. Available at: http://52.168.83.77:80
