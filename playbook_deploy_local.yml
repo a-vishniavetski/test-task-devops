@@ -1,0 +1,83 @@
+- name: Deploy Application to a local computer
+  hosts: localhost
+  become: yes
+  tasks:
+    - name: Create base directory on remote machine
+      ansible.builtin.file:
+        path: /home/{{ local_host_username }}/app
+        state: directory
+        mode: "0755"
+
+    - name: Recreate directory structure on remote machine
+      ansible.builtin.file:
+        path: "/home/{{ local_host_username }}/app/{{ item }}"
+        state: directory
+        mode: "0755"
+      with_items:
+        - backend
+        - frontend
+        - reverse_proxy
+    
+    - name: Copy .env template and substitute variables
+      template:
+        src: ansible/.env.j2
+        dest: /home/{{ local_host_username }}/app/.env
+        mode: "0755"
+
+    - name: Copy nginx.conf template and substitute variables
+      template:
+        src: ansible/nginx.conf.j2
+        dest: /home/{{ local_host_username }}/app/reverse_proxy/nginx.conf
+        mode: "0755"
+
+    - name: Copy necessary configuration files to remote machine
+      ansible.builtin.copy:
+        src: "{{ item }}"
+        dest: "/home/{{ local_host_username }}/app/{{ item }}"
+      with_items:
+        - docker-compose.yml
+        - backend/Dockerfile
+        - frontend/Dockerfile
+        - reverse_proxy/nginx.conf
+        - backend/package.json
+        - frontend/package.json
+        - backend/package-lock.json
+        - frontend/package-lock.json
+        - backend/.eslintrc
+        - frontend/.eslintrc
+        - frontend/webpack.config.js
+
+    - name: Log into DockerHub
+      docker_login:
+        username: "{{ dockerhub_login }}"
+        password: "{{ dockerhub_password }}"
+
+    - name: Pull Docker images
+      community.general.docker_image:
+        name: "{{ item.image }}"
+        tag: "{{ item.tag }}"
+        source: pull
+      with_items:
+        - { image: "{{ dockerhub_login }}/{{ dockerhub_repository }}", tag: backend-latest }
+        - { image: "{{ dockerhub_login }}/{{ dockerhub_repository }}", tag: frontend-latest }
+
+    - name: Get running containers
+      docker_host_info:
+        containers: yes
+      register: docker_info
+
+    - name: Stop running containers
+      docker_container:
+        name: "{{ item }}"
+        state: stopped
+      loop: "{{ docker_info.containers | map(attribute='Id') | list }}"
+
+    - name: Prune containers and volumes
+      community.docker.docker_prune:
+        containers: true
+        volumes: true
+
+    - name: Start the application using Docker Compose
+      ansible.builtin.command:
+        cmd: docker compose up -d
+        chdir: "/home/{{ local_host_username }}/app/"

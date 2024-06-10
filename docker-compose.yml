@@ -17,11 +17,12 @@ services:
     build: 
       context: ./backend
       dockerfile: Dockerfile
+    image: avishniavetski/efi_recruitment:backend-latest
     volumes:
-      - ./backend/:/app/
+      - backend_volume:/app
       - /app/node_modules
     ports:
-      - "2999:${BACKEND_INTERNAL_PORT}"
+      - "${BACKEND_INTERNAL_PORT}"
     restart: on-failure
     environment:
       - PORT=${BACKEND_INTERNAL_PORT}
@@ -34,8 +35,9 @@ services:
     build: 
       context: ./frontend
       dockerfile: Dockerfile
+    image: avishniavetski/efi_recruitment:frontend-latest
     volumes:
-      - ./frontend/:/app/
+      - frontend_volume:/app
       - /app/node_modules
     command: npm run start
     ports:
@@ -47,5 +49,8 @@ services:
       - HOST=${FRONT_HOST}
       - PORT=${FRONT_PORT}
     restart: on-failure
+volumes:
+  backend_volume:
+  frontend_volume:
 
 

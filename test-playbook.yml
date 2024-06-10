@@ -1,0 +1,30 @@
+- name: Deploy Application to Azure
+  hosts: myhosts
+  become: yes
+  tasks:
+    - name: Create base directory on remote machine
+      ansible.builtin.file:
+        path: /home/azureuser/app
+        state: directory
+        mode: "0755"
+
+    - name: Recreate directory structure on remote machine
+      ansible.builtin.file:
+        path: "/home/azureuser/app/{{ item }}"
+        state: directory
+        mode: "0755"
+      with_items:
+        - backend
+        - frontend
+        - reverse_proxy
+
+    - name: Copy necessary configuration files to remote machine
+      ansible.builtin.copy:
+        src: "{{ item }}"
+        dest: "/home/azureuser/app/{{ item }}"
+      with_items:
+        - docker-compose.yml
+        - backend/Dockerfile
+        - frontend/Dockerfile
+        - reverse_proxy/nginx.conf
+        - .env

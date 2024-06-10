@@ -10,7 +10,7 @@ http {
     # Reverse proxy for the Weather Application
     server {
         listen 80;
-        server_name localhost;
+        server_name {{ STATIC_IP }};
 
         location / {
             proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;

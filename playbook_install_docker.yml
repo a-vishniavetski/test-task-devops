@@ -1,0 +1,26 @@
+- name: Install Docker on Azure
+  hosts: "{{ target_hosts }}"
+  become: yes
+
+  tasks:
+    - name: Copy the Docker installation script to the remote machine
+      copy:
+        src: ./install_docker.sh
+        dest: /tmp/install_docker.sh
+        mode: '0755'
+
+    - name: Execute the Docker installation script
+      ansible.builtin.shell: ./install_docker.sh
+      args:
+        chdir: "/tmp/"
+
+    - name: Install Docker packages
+      apt:
+        name:
+          - docker-ce
+          - docker-ce-cli
+          - containerd.io
+          - docker-buildx-plugin
+          - docker-compose-plugin
+        state: present
+        update_cache: yes

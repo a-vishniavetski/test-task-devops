@@ -1,0 +1,18 @@
+- name: Build Docker images and Push them to DockerHub
+  hosts: "{{ target_hosts }}"
+  tasks:
+    - name: Build the images using Docker Compose
+      ansible.builtin.command:
+        cmd: docker compose build
+        chdir: "."
+
+    - name: Log in to Docker Hub
+      docker_login:
+        username: "{{ dockerhub_login }}"
+        password: "{{ dockerhub_password }}"
+    
+    - name: Push the Docker images to Docker Hub to a private repository
+      ansible.builtin.command:
+        cmd: docker compose push
+        chdir: "."
+
