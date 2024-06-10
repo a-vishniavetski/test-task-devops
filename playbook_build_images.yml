@@ -1,6 +1,12 @@
 - name: Build Docker images and Push them to DockerHub
   hosts: "{{ target_hosts }}"
   tasks:
+    - name: Copy .env template and substitute variables
+      template:
+        src: ansible/.env.j2
+        dest: .env
+        mode: "0755"
+
     - name: Build the images using Docker Compose
       ansible.builtin.command:
         cmd: docker compose build
