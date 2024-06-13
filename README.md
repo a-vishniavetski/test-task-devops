@@ -80,5 +80,4 @@ ansible-playbook -i ./inventory.ini --extra-vars "target_hosts=<TARGET_HOST>" pl
 Where: **<TARGET_HOST>** is either **`local`** or **`azure`** respectively.
 
 # Possible Further Improvements
-- In theory, using Terraform in a local Powershell, and Bash scripting, the deployment process can be wrapped in a single Bash script with a single configuration file, which would be convenient for the client.
 - HTTPS through SSL certificates.
