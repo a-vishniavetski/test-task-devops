@@ -1,5 +1,5 @@
 # Completed Tasks
-All of the tasks are completed. The application is available at: http://52.168.83.77:80 . It consists of **3 Docker Containers** running on a **Virtual Machine** on **Azure Cloud**, and can be automatically installed on a Remote or Locally using **Terraform** and **Ansible**.
+All of the tasks are completed. The application is available at: http://20.185.156.127:80 . It consists of **3 Docker Containers** running on a **Virtual Machine** on **Azure Cloud**, and can be automatically installed on a Remote or Locally using **Terraform** and **Ansible**.
 
 ### Terraform
 I have written configuration files to automatically provision an Azure Virtual Machine with an automatic setup of **InBound** **SSH** and **HTTP** connections using Terraform through **Azure Cloud Shell**. The configuration files:
@@ -19,7 +19,7 @@ I have written the following Ansible playbooks:
 **Jinja templates** deploy the configuration files (`.env`, `.conf`).
 ### Cloud Hosting - Microsoft Azure Cloud
 I have set up:
-- A Virtual Machine in the Azure Cloud. Available at: http://52.168.83.77:80
+- A Virtual Machine in the Azure Cloud. Available at: http://20.185.156.127:80
 - An **HTTP Reverse Proxy** using **Nginx**
 - **SSH connection** to the VM, public key added.
 
